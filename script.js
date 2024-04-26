@@ -28,40 +28,27 @@ function findClosestElevator(floor) {
         if (distance < minDistance && !elevator.inOrder) {
             minDistance = distance;
             closestElevator = elevator;
-        }else{
-            continue
         }
     }
     return closestElevator;
 }
-
-function updateElevator(closestElevator,y) {
-    let x=document.querySelectorAll('.elevator div')
-    for(let i=0;i<x.length;i++){
-        if (x[i].innerText==closestElevator) {
-            let evelatorPos = parseInt(x[i].style.top); 
-            if (evelatorPos<y) {
-                let id=(setInterval(() => {
-                    x[i].style.top = evelatorPos + 'px';
-                    evelatorPos += 10; 
-                    if (evelatorPos > y-100) {
-                        elevators[i].inOrder=false
-                        clearInterval(id); 
-                    }
-                }, 80)); 
-            }else{
-                let id=(setInterval(() => {
-                    x[i].style.top = evelatorPos + 'px';
-                    evelatorPos -= 10; 
-                    if (evelatorPos < y-100) {
-                        elevators[i].inOrder=false
-                        clearInterval(id); 
-                    }
-                }, 80)); 
-            }
+function updateElevator(closestElevator, y) {
+    let x = document.querySelectorAll('.elevator div');
+    for (let i = 0; i < x.length; i++) {
+        if (x[i].innerText == closestElevator) {
+            let elevatorDiv = x[i];
+            let targetPosition = y - 90;
+            elevatorDiv.style.transition = 'top 3s ease'; 
+            elevatorDiv.style.top = targetPosition + 'px';
+            setTimeout(() => {
+                elevatorDiv.style.transition = '';
+                elevators[i].inOrder = false;
+            }, 3000); 
         }
     }
 }
+
+
 
 const floorsContainer = document.getElementById("floors");
 for (let i = 20; i > 0; i--) {
